@@ -4,11 +4,11 @@ import java.util.Scanner;
 public class Pessoas {
 
     //Atributos
-    String NomeCompleto;
-    String CPF;
-    int Idade;
-    String email;
-    String Senha;
+    private String NomeCompleto;
+    private String CPF;
+    private int Idade;
+    private String email;
+    private String Senha;
 
     //Scanners
     Scanner leitura = new Scanner(System.in);
@@ -26,12 +26,6 @@ public class Pessoas {
         System.out.printf("Insira seu CPF: ");
         CPF = leitura.next();
         return CPF; 
-    }
-    //Atribuir CPF - LOGIN
-    public String LogarCPF(){
-        System.out.printf("CPF: ");
-        CPF = leitura.next();
-        return CPF;
     }
 
     //Atribuir Idade 

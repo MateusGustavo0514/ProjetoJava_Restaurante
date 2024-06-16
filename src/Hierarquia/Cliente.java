@@ -1,16 +1,17 @@
 package Hierarquia;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Cliente extends Pessoas {
-    String Mesa;
-    String Pedido;
-    String Horario;
-    String NomeReserva;
-    int op;
+    private String Mesa;
+    private String Pedido;
+    private LocalDateTime DataHoraReserva;
+    private String NomeReserva;
+    private int op;
 
     //Scanner
-    Scanner LeituraTela_Cliente = new Scanner(System.in);
+    private Scanner LeituraTela_Cliente = new Scanner(System.in);
     
     //Atribuir Mesa
     public String Leitura_Reserva(){
@@ -20,10 +21,12 @@ public class Cliente extends Pessoas {
     } 
 
     //Atribuir Data e Horário
-    public String Leitura_Data(){
-        System.out.printf("Horário da reserva: ");
-        Horario = LeituraTela_Cliente.nextLine();
-        return Horario;
+    public LocalDateTime Leitura_Data(){
+        System.out.printf("Data e horário da reserva (formato: ano-mes-dia hora:minutos): ");
+        String dataHora = LeituraTela_Cliente.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DataHoraReserva = LocalDateTime.parse(dataHora, formatter);
+        return DataHoraReserva;
     }
 
     public String Nome_Reserva(){

@@ -33,7 +33,7 @@ public class Funcionario_Acesso {
 
     public boolean Funcionario_Login(Funcionario funcionario){
 
-        String sql = "SELECT FROM LISTA_FUNCIONARIOS WHERE EMAIL = ? AND SENHA = ?";
+        String sql = "SELECT * FROM LISTA_FUNCIONARIOS WHERE EMAIL = ? AND SENHA = ?";
         PreparedStatement ps = null;
         Connection conn = null;
         ResultSet rs = null;
@@ -45,7 +45,7 @@ public class Funcionario_Acesso {
 
             rs = ps.executeQuery();
             if (rs.next()) {
-                System.out.println("DE VOLTA AO TRABALHO :) LOGIN REALIZADO COM SUCESSO...s");
+                System.out.println("DE VOLTA AO TRABALHO :) LOGIN REALIZADO COM SUCESSO...");
                 return true; // Login bem-sucedido
             } else {
                 System.out.println("ERRO!!! EMAIL OU SENHA INVALIDOS...");
@@ -54,14 +54,6 @@ public class Funcionario_Acesso {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        } /**finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (conn != null) conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
+        } 
     }
 }
