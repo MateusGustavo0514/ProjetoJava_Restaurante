@@ -5,10 +5,11 @@ import java.util.Scanner;
 
 public class Cliente extends Pessoas {
     private String Mesa;
-    private String Pedido;
     private LocalDateTime DataHoraReserva;
     private String NomeReserva;
-    private int op;
+    private String Prato_Principal;
+    private String Bebida;
+    private String Sobremesa;
 
     //Scanner
     private Scanner LeituraTela_Cliente = new Scanner(System.in);
@@ -33,6 +34,24 @@ public class Cliente extends Pessoas {
         System.out.printf("Nome: ");
         NomeReserva = LeituraTela_Cliente.nextLine();
         return NomeReserva;
+    }
+
+    public String Pedido_PratoPrincipal(){
+        System.out.println("Qual vai ser o prato principal: ");
+        Prato_Principal = LeituraTela_Cliente.nextLine();
+        return Prato_Principal;
+    }
+
+    public String Pedido_Bebida(){
+        System.out.println("Qual vai ser a bebida: ");
+        Bebida = LeituraTela_Cliente.nextLine();
+        return Bebida;
+    }
+
+    public String Pedido_Sobremesa(){
+        System.out.println("Qual vai ser  a sobremesa: ");
+        Sobremesa = LeituraTela_Cliente.nextLine();
+        return Sobremesa;
     }
 }
 

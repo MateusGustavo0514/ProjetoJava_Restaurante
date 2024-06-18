@@ -2,12 +2,17 @@ package Acesso_Dados;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import Conexao.Conexao;
 import Hierarquia.Funcionario;
 
 public class Funcionario_Acesso {
 
+    //CADASTRO FUNCIONARIO
     public void CadastrarFuncionario(Funcionario funcionario){
         String sql = "INSERT INTO LISTA_FUNCIONARIOS (NOMECOMPLETO, CPF, IDADE, EMAIL, SENHA, CARGO) VALUES(?, ?, ?, ?, ?, ?)";
 
@@ -31,6 +36,7 @@ public class Funcionario_Acesso {
         }
     }
 
+    //LOGIN FUNCIONARIO
     public boolean Funcionario_Login(Funcionario funcionario){
 
         String sql = "SELECT * FROM LISTA_FUNCIONARIOS WHERE EMAIL = ? AND SENHA = ?";
@@ -55,5 +61,30 @@ public class Funcionario_Acesso {
             e.printStackTrace();
             return false;
         } 
+    }
+
+    //CONSULTAR RESERVAS
+    public List<String> ConsultarReservas() {
+        String sql = "SELECT * FROM RESERVAS";
+        List<String> reservas = new ArrayList<>();
+
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String mesa = rs.getString("MESA");
+                String nomeCliente = rs.getString("NOME_CLIENTE");
+                Timestamp dataHora = rs.getTimestamp("DATA_HORARIO");
+                LocalDateTime dateTime = dataHora.toLocalDateTime();
+
+                String reserva = String.format("Mesa: %-10s Nome do Cliente: %-20s Data: %td/%tm/%ty Hora: %tH:%tM",
+                        mesa, nomeCliente, dateTime, dateTime, dateTime, dateTime, dateTime);
+                reservas.add(reserva);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return reservas;
     }
 }

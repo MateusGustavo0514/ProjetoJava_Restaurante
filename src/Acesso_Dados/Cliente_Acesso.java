@@ -4,20 +4,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 import Conexao.Conexao;
 import Hierarquia.Cliente;
 
 public class Cliente_Acesso {
 
-    //Variaveis
-    private int op;
-    
-    //SCANNERS
-    private Scanner leitura_tela = new Scanner(System.in);
-
-    
 
     //CADASTRO AO BANCO DE DADOS
     public void CadastrarCliente(Cliente cliente){
@@ -70,6 +64,45 @@ public class Cliente_Acesso {
         } 
     }
     
+    //FAZER O PEDIDO
+    public void CadastrarPedido(Cliente cliente){
+
+        String sql = "INSERT INTO PEDIDOS (PRATO_PRINCIPAL, BEBIDA, SOBREMESA) VALUES(?,?,?)";
+    
+        PreparedStatement ps = null;
+    
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setString(1, cliente.Pedido_PratoPrincipal());
+            ps.setString(2, cliente.Pedido_Bebida());
+            ps.setString(3, cliente.Pedido_Sobremesa());
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+    //CONSULTAR PEDIDO
+    public List<String> ConsultarPedidos(){
+        String sql = "SELECT * FROM PEDIDOS";
+        List<String> pedidos = new ArrayList<>();
+
+        try(Connection conn = Conexao.getConexao();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()){
+                while(rs.next()){
+                    String Prato_Principal = rs.getString("PRATO_PRINCIPAL");
+                    String Bebida = rs.getString("BEBIDA");
+                    String Sobremesa = rs.getString("SOBREMESA");
+
+                    String pedido = String.format("\nPrato Principal: %s \nBebida: %s \nSobremesa: %s ", Prato_Principal, Bebida, Sobremesa);
+                    pedidos.add(pedido);
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            return pedidos;  
+        }
+
     //FAZER A RESERVAR
     public void CadastrarReserva(Cliente cliente){
         
@@ -78,14 +111,13 @@ public class Cliente_Acesso {
         PreparedStatement ps = null;
 
         try {
-            ps = Conexao.getConexao().prepareStatement(sql );
+            ps = Conexao.getConexao().prepareStatement(sql);
             ps.setString(1, cliente.Leitura_Reserva());
             ps.setString(2, cliente.Nome_Reserva());
             LocalDateTime dataHora = cliente.Leitura_Data();
             ps.setTimestamp(3, Timestamp.valueOf(dataHora));
 
             ps.execute();
-            ps.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,15 +125,29 @@ public class Cliente_Acesso {
         }
     }
 
-    //CONSULTAR A RESERVA
-    private void ConsultarReserva(Cliente cliente){
+    //CONSULTAR RESERVAS
+     public List<String> ConsultarReservas() {
+        String sql = "SELECT * FROM RESERVAS";
+        List<String> reservas = new ArrayList<>();
 
-        String sql = "SELECT * FROM RESERVAS WHERE MESA = ?, NOME_CLIENTE = ? AND DATA = ?";
-        PreparedStatement ps = null;
-        Connection conn = null;
-        ResultSet rs = null;
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                String mesa = rs.getString("MESA");
+                String nomeCliente = rs.getString("NOME_CLIENTE");
+                Timestamp dataHora = rs.getTimestamp("DATA_HORARIO");
+                LocalDateTime dateTime = dataHora.toLocalDateTime();
 
-        
+                String reserva = String.format("Mesa: %-10s Nome do Cliente: %-20s Data: %td/%tm/%ty Hora: %tH:%tM", 
+                        mesa, nomeCliente, dateTime, dateTime, dateTime, dateTime, dateTime);
+                reservas.add(reserva);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return reservas;
     }
 }
     //FAZAR O PEDIDO

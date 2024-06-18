@@ -1,12 +1,6 @@
-import java.util.Calendar;
-
-
 public class testes {
     public static void main(String[] args) {
-        Calendar c = Calendar.getInstance();
-        System.out.println("Data e Hora atual: "+c.getTime());
-        System.out.println("Ano: "+c.get(Calendar.YEAR));
-        System.out.println("Mês: "+c.get(Calendar.MONTH));
-        System.out.println("Dia do mês: "+c.get(Calendar.DAY_OF_MONTH));
+        System.out.println("     >>>>>> CARDAPIO <<<<<< \n\n--------Pratos Principais-------- \n1.Macarrão Carbonara..........63,50 \n2.Macarrão ao molho pesto..........45,60 \n3.Macarrão a bolonhesa..........32,43\n4.Macarrão ao molho branco..........32,43\n");
+        System.out.println("--------Bebidas-------- \n1.Coca cola..........5,60 \n2.Guarána..........5,60 \n3.Fanta laranja e uva..........5,60 \n4.Sucos naturais \n   ->Laranja...........12,50 \n   ->Maracujá..........14,50 \n   ->Caju..........12,50 \n   ->Abacaxi com Hortalã..........13,50"); 
     }
 }
